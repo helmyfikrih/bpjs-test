@@ -65,9 +65,9 @@
 						if (response.code  == 200 && response.data.token) {
 							console.log(response.data.token);
 							localStorage.setItem('jwt_token', response.data.token);
-							alert('Login successful! Token saved in localStorage.');
+							// alert('Login successful! Token saved in localStorage.');
 							// Redirect to dashboard or home page
-							window.location.href = '/bpjs/index.php'; // Change this to your main page
+							window.location.href = '/bpjs'; // Change this to your main page
 						}
 					},
 					error: function() {

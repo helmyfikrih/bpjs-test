@@ -63,7 +63,7 @@ class Auth extends CI_Controller
 		$create_user = $this->User_model->create_user($data);
 		if ($create_user) {
 			$this->output_response(true, "Registration successful", array(
-                "username" => $create_user->username
+                "username" => $this->input->post('username')
 			), 200);
 		} else {
 			$this->output_response(false, "Registration failed", $create_user, 500);

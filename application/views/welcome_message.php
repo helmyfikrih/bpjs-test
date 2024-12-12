@@ -192,7 +192,20 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-		const apiUrl = "http://localhost/bpjs/index.php/api/bpjs";
+		const apiUrl = "http://localhost/bpjs/api/bpjs";
+		$(document).ajaxError(function(event, xhr, settings, thrownError) {
+			console.error("Terjadi kesalahan saat memproses permintaan AJAX:");
+			console.log("URL:", settings.url);
+			console.log("Status:", xhr.status);
+			console.log("Status Text:", xhr.statusText);
+			console.log("Pesan Error:", xhr.responseText);
+			resp = JSON.parse(xhr.responseText);
+			if(resp.code == 401 && resp.message == 'Token Expired') {
+				// localStorage.removeItem('jwt_token');
+				alert(resp.message);
+                window.location.href = "/bpjs/login";
+			}
+		});
 
 		$(document).ready(function() {
 			var table = $('#dataTable').DataTable();

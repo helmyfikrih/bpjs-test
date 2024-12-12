@@ -284,6 +284,10 @@ class Bpjs extends CI_Controller
 		}
 		$this->authenticate();
 		$data = json_decode(file_get_contents('php://input'), true);
+		if(empty($data)) {
+			$this->output_response(false, "Invalid Request", null, 400);
+			return;
+		}
 		$this->form_validation->set_data($data);
 		$this->form_validation->set_rules('kpj', 'kpj', 'numeric|min_length[11]|max_length[11]');
 		$this->form_validation->set_rules('first_name', 'first_name', 'min_length[5]');
