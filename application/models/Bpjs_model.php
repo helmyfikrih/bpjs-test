@@ -97,4 +97,12 @@ class Bpjs_model extends CI_Model
 		$query = $this->db->get('bpjs_participants');
 		return $query->num_rows() === 0;
 	}
+
+	public function is_unique_email($email, $nik_original)
+	{
+		$this->db->where('nik !=', $nik_original);
+		$this->db->where('email', $email);
+		$query = $this->db->get('bpjs_participants');
+		return $query->num_rows() === 0;
+	}
 }

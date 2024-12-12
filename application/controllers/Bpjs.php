@@ -249,7 +249,7 @@ class Bpjs extends CI_Controller
 		$this->form_validation->set_rules('first_name', 'first_name', 'required|min_length[5]');
 		$this->form_validation->set_rules('last_name', 'last_name', 'min_length[5]');
 		$this->form_validation->set_rules('phone_number', 'phone_number', 'required|numeric|min_length[5]');
-		$this->form_validation->set_rules('email', 'email', 'is_unique[bpjs_participants.email]|min_length[6]');
+		$this->form_validation->set_rules('email', 'email', 'is_unique[bpjs_participants.email]|min_length[6]|valid_email');
 		$this->form_validation->set_rules('birth_date', 'birth_date', 'required|callback_validate_birth_date');
 		$this->form_validation->set_rules('birth_place', 'birth_place', 'required|min_length[6]');
 		$this->form_validation->set_rules('address', 'address', 'required|min_length[6]');
@@ -289,11 +289,11 @@ class Bpjs extends CI_Controller
 			return;
 		}
 		$this->form_validation->set_data($data);
-		$this->form_validation->set_rules('kpj', 'kpj', 'numeric|min_length[11]|max_length[11]');
+		$this->form_validation->set_rules('kpj', 'kpj', 'numeric|min_length[11]|max_length[11]|callback_check_unique_kpj[$nik]');
 		$this->form_validation->set_rules('first_name', 'first_name', 'min_length[5]');
 		$this->form_validation->set_rules('last_name', 'last_name', 'min_length[5]');
 		$this->form_validation->set_rules('phone_number', 'phone_number', 'numeric|min_length[5]');
-		$this->form_validation->set_rules('email', 'email', 'min_length[6]');
+		$this->form_validation->set_rules('email', 'email', 'min_length[6]|valid_email|callback_check_unique_email[$nik]');
 		$this->form_validation->set_rules('birth_date', 'birth_date', 'callback_validate_birth_date');
 		$this->form_validation->set_rules('birth_place', 'birth_place', 'min_length[6]');
 		$this->form_validation->set_rules('address', 'address', 'min_length[6]');
@@ -349,6 +349,15 @@ class Bpjs extends CI_Controller
 			return TRUE;
 		}
 		$this->form_validation->set_message('check_unique_kpj', 'The {field} is already taken.');
+		return FALSE;
+	}
+
+	public function check_unique_email($email_input, $nik_original)
+	{
+	if ($this->Bpjs_model->is_unique_email($email_input, $nik_original)) {
+			return TRUE;
+		}
+		$this->form_validation->set_message('check_unique_email', 'The {field} is already taken.');
 		return FALSE;
 	}
 

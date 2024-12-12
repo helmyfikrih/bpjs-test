@@ -371,7 +371,7 @@
 										alert('Failed to add participant');
 										$('.text-danger').text('');
 										$.each(res_data, function(index, message) {
-											document.getElementById(`${index}-error`).textContent = message;
+											document.getElementById(`edit_${index}-error`).textContent = message;
 										})
 									}
 									console.log(res.responseJSON);
